@@ -9,7 +9,7 @@ Merkle trees are identified by a root value (`root: string`). Each root is assoc
 |Method|Endpoint|Description|Request Body|Response Body|
 |--|--|--|--|--|
 |GET|`api.merkleroots.xyz/:root`|Returns the tree rooted at `root` in array form (see Tree Layout)||`{ nodes: string[] }`|
-|POST|`api.merkleroots.xyzs`|Creates a tree whose leaves are `leaves` and returns its `root`. If a tree with `root` exists already, the tree with more nodes is kept.|`{ leaves: string[] }`|`string`|
+|POST|`api.merkleroots.xyz`|Creates a tree whose leaves are `leaves` and returns its `root`. If a tree with `root` exists already, the tree with more nodes is kept.|`{ leaves: string[] }`|`string`|
 |GET|`api.merkleroots.xyz/alias/:name`|Returns the value that `name` points to||`string`|
 |POST|`api.merkleroots.xyz/alias`|Point `name` to the value `root`. Returns `Ok` or `Forbidden`|`{ name: string; root: string }`|`string`|
 
