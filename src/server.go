@@ -40,11 +40,17 @@ func poseidon2(a string, b string) string {
 var db *gorm.DB
 var err error
 
+func find_tree(root string) (MerkleTree, error) {
+	var existing_tree MerkleTree
+	err = db.First(&existing_tree, "root = ?", root).Error
+	return existing_tree, err
+}
+
 // creates a tree and writes it to the database
 // if colliding with another tree with same root, assume that one must be a prefix of the other and keep the larger one
 func create_tree(tree MerkleTree) error {
-	var existing_tree MerkleTree
-	if db.First(&existing_tree, "root = ?", tree.Root).Error == nil {
+	existing_tree, err := find_tree(tree.Root)
+	if err == nil {
 		if len(existing_tree.Nodes) >= len(tree.Nodes) {
 			fmt.Printf("Cannot update tree %s (%d nodes) with smaller tree (%d nodes)\n", tree.Root, len(existing_tree.Nodes), len(tree.Nodes))
 			return errors.New("tree with same root already exists")
@@ -61,7 +67,7 @@ func create_tree(tree MerkleTree) error {
 }
 
 func main() {
-	dsn := "host=localhost user=mroots dbname=mroots port=5432 sslmode=disable"
+	dsn := "host=localhost user=mroots dbname=mroots password=mroots port=5432 sslmode=disable"
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
@@ -76,8 +82,8 @@ func main() {
 
 	r.GET("/tree/:root", func(c *gin.Context) {
 		root := c.Param("root")
-		var existing_tree MerkleTree
-		if db.First(&existing_tree, "root = ?", root).Error == nil {
+		existing_tree, err := find_tree(root)
+		if err == nil {
 			fmt.Printf("Found existing tree\n")
 			c.JSON(200, gin.H{
 				"nodes": strings.Split(existing_tree.Nodes, ","),

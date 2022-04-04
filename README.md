@@ -41,7 +41,7 @@ brew services start postgres
 set up postgres:
 ```
 brew info postgres
-psql; create user mroots; create database mroots; # linux: sudo su postgres before psql
+psql; create user mroots with password 'mroots'; create database mroots; # linux: sudo su postgres before psql
 ```
 
 run server:
