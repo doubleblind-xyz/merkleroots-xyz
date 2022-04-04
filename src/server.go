@@ -61,7 +61,7 @@ func create_tree(tree MerkleTree) error {
 }
 
 func main() {
-	dsn := "host=localhost user=stevenhao dbname=stevenhao port=5432 sslmode=disable"
+	dsn := "host=localhost user=mroots dbname=mroots port=5432 sslmode=disable"
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")

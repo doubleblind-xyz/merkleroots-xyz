@@ -29,3 +29,31 @@ Namespaced aliases, which follow the format `@namespace/name`, are writable only
 You can use namespaced aliases to simultaneously name and sign a merkle root.
 
 All aliases are publicly readable. Only namespaced aliases are mutable.
+
+## Local Development
+
+run postgres server:
+```
+brew install postgres
+brew services start postgres
+```
+
+set up postgres:
+```
+brew info postgres
+psql; create user mroots; create database mroots; # linux: sudo su postgres before psql
+```
+
+run server:
+
+```
+go run src/server.go
+# or with gin
+cd src; gin run
+```
+
+test server:
+```
+curl -X POST 127.0.0.1:3000/tree -d @request.json
+curl 127.0.0.1:3000/tree/18413384112310044160158834857773087012258255807213533751159036388968578675718
+```
