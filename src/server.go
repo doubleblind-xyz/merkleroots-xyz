@@ -25,7 +25,7 @@ func poseidon2(a string, b string) string {
 	aBig := new(big.Int)
 	aBig, ok1 := aBig.SetString(a, 10)
 	bBig := new(big.Int)
-	bBig, ok2 := bBig.SetString(a, 10)
+	bBig, ok2 := bBig.SetString(b, 10)
 	if !ok1 || !ok2 {
 		log.Fatal("Error converting to big int")
 	}
